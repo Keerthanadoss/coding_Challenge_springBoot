@@ -43,4 +43,11 @@ public class TaskService {
 		return t;
 	}
 
+	public void deleteTask(int taskId) throws InvalidIdException {
+		Optional<Task> optional=taskRepository.findById(taskId);
+		if(optional.isEmpty())
+			throw new InvalidIdException("Invalid task id");
+		taskRepository.deleteById(taskId);	
+	}
+
 }
