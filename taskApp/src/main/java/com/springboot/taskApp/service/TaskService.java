@@ -33,4 +33,14 @@ public class TaskService {
 		 return taskRepository.save(task);		
 	}
 
+	public Task updateTask(int taskId, Task task) throws InvalidIdException {
+		Optional<Task> optional=taskRepository.findById(taskId);
+		if(optional.isEmpty())
+			throw new InvalidIdException("Invalid task id");
+		Task t=optional.get();
+		t.setDueDate(task.getDueDate());
+		t.setStatus(task.getStatus());
+		return t;
+	}
+
 }

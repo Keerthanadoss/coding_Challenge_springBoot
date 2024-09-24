@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,6 +41,16 @@ public class TaskController {
 	@PostMapping("/add")
 	public Task addNewTask(@RequestBody Task task) {
 		return taskService.addNewTask(task);
+	}
+	
+	@PutMapping("/update/{taskId}")
+	public ResponseEntity<?> updateTask(@RequestBody Task task,@PathVariable int taskId) {
+		try {
+			Task t=taskService.updateTask(taskId,task);
+			return ResponseEntity.ok(t);
+		} catch (InvalidIdException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 	}
 
 }
