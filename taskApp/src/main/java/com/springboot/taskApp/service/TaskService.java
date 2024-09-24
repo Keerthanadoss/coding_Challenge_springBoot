@@ -29,4 +29,8 @@ public class TaskService {
 		return task;	
 	}
 
+	public Task addNewTask(Task task) {
+		 return taskRepository.save(task);		
+	}
+
 }
