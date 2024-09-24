@@ -32,6 +32,18 @@ public class Task {
 	
 	@Enumerated(EnumType.STRING)
 	private Status status;
+	
+	
+
+	public Task(int id, String title, String description, LocalDate dueDate, Priority priority, Status status) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.dueDate = dueDate;
+		this.priority = priority;
+		this.status = status;
+	}
 
 	public int getId() {
 		return id;
