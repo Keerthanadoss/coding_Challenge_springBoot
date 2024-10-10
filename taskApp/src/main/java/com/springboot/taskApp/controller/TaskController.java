@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,23 +15,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.taskApp.dto.MessageDto;
+import com.springboot.taskApp.enums.Priority;
+import com.springboot.taskApp.enums.Status;
 import com.springboot.taskApp.exception.InvalidIdException;
 import com.springboot.taskApp.model.Task;
 import com.springboot.taskApp.service.TaskService;
 
 @RestController
-@RequestMapping("/task")
+@CrossOrigin(origins = {"http://localhost:4200"})
 public class TaskController {
 	
 	@Autowired
 	private TaskService taskService;
 	
-	@GetMapping("/getAll")
+	@GetMapping("/task/getAll")
 	public List<Task> retriveAllTask() {
 		return taskService.retriveAllTask();
 	}
 	
-	@GetMapping("/getById/{taskId}")
+	@GetMapping("/task/getById/{taskId}")
 	public ResponseEntity<?> getById(@PathVariable int taskId,MessageDto dto) {
 		try {
 			Task task=taskService.getById(taskId);
@@ -41,23 +44,23 @@ public class TaskController {
 		}
 	}
 	
-	@PostMapping("/add")
+	@PostMapping("/task/add")
 	public Task addNewTask(@RequestBody Task task) {
 		return taskService.addNewTask(task);
 	}
 	
-	@PutMapping("/update/{taskId}")
+	@PutMapping("/task/update/{taskId}")
 	public ResponseEntity<?> updateTask(@RequestBody Task task,@PathVariable int taskId,MessageDto dto) {
 		try {
-			Task t=taskService.updateTask(taskId,task);
-			return ResponseEntity.ok(t);
+			task=taskService.updateTask(taskId,task);
+			return ResponseEntity.ok(task);
 		} catch (InvalidIdException e) {
 			dto.setMsg(e.getMessage());
 			return ResponseEntity.badRequest().body(dto);
 		}
 	}
 	
-	@DeleteMapping("/delete/{taskId}")
+	@DeleteMapping("/task/delete/{taskId}")
 	public ResponseEntity<?> deleteTask(@PathVariable int taskId,MessageDto dto) {
 		try {
 			taskService.deleteTask(taskId);
@@ -67,6 +70,16 @@ public class TaskController {
 			dto.setMsg(e.getMessage());
 			return ResponseEntity.badRequest().body(dto);
 		}
+	}
+	
+	@GetMapping("/task/status")
+	public List<Status> getAllStatus(){
+		return List.of(Status.values());
+	}
+	
+	@GetMapping("/task/priority")
+	public List<Priority> getAllPriority(){
+		return List.of(Priority.values());
 	}
 
 }

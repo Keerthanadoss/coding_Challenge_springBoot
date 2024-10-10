@@ -33,7 +33,7 @@ public class Task {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
-	
+	public Task() {}
 
 	public Task(int id, String title, String description, LocalDate dueDate, Priority priority, Status status) {
 		super();

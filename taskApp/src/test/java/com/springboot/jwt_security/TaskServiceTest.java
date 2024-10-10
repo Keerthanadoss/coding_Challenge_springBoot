@@ -23,12 +23,14 @@ public class TaskServiceTest {
 	@Autowired
 	private TaskService taskService;
 	
+	
 	@Test
 	public void retriveAllTaskTest() {
-		int expectedNum=3;
+		int expectedNum=5;
 		int actualNum=taskService.retriveAllTask().size();
 		assertEquals(expectedNum,actualNum);
 	}
+	
 	
 	@Test
 	public void getTaskById() {
@@ -47,7 +49,7 @@ public class TaskServiceTest {
 		}
 		
 		//Use case 2:Invalid Id
-		int Invalidid=4;
+		int Invalidid=7;
 		try {
 			taskService.getById(Invalidid);
 		} catch (InvalidIdException e) {
@@ -58,13 +60,14 @@ public class TaskServiceTest {
 	@Test
 	public void addTaskTest() {
 		
-		int expectedNum=3;
+		int expectedNum=5;
 		int actualNum=taskService.retriveAllTask().size();
-		assertEquals(expectedNum,actualNum); 
+		assertEquals(expectedNum,actualNum);
+
 		
-		int expectedNum1=4;
-		Task task=new Task(4,"create salary api","create new salary api for project",LocalDate.now(),Priority.valueOf("HIGH"),Status.valueOf("PENDING"));
-		Task task1=taskService.addNewTask(task);
+		int expectedNum1=5;
+		Task task=new Task(1,"create jobseeker api","create new jobseeker api for project",LocalDate.now(),Priority.valueOf("LOW"),Status.valueOf("PENDING"));
+		taskService.addNewTask(task);
 		int actualNum1=taskService.retriveAllTask().size();
 		assertEquals(expectedNum1, actualNum1);
 	}
